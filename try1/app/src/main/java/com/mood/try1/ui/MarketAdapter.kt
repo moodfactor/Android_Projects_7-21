@@ -2,50 +2,51 @@ package com.mood.try1.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mood.try1.R
 import com.mood.try1.databinding.MarketItemBinding
 import com.mood.try1.domain.Market
 
-class MarketAdapter : RecyclerView.Adapter<MarketAdapter.MarketHolder>() {
+class MarketAdapter : ListAdapter<Market, MarketAdapter.MarketHolder>(DiffCallback) {
 
     class MarketHolder(val viewDataBinding: MarketItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
 
-        companion object {
-            @LayoutRes
-            val LAYOUT = R.layout.market_item
+        fun bind(market: Market) {
+            viewDataBinding.market = market
+            viewDataBinding.executePendingBindings()
         }
     }
 
-    var markets: List<Market> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+    companion object DiffCallback : DiffUtil.ItemCallback<Market>() {
+        override fun areItemsTheSame(oldItem: Market, newItem: Market): Boolean {
+            return oldItem.id == newItem.id
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarketHolder {
-        val withDataBinding: MarketItemBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            MarketHolder.LAYOUT,
-            parent,
-            false
-        )
+        override fun areContentsTheSame(oldItem: Market, newItem: Market): Boolean {
+            return oldItem == newItem
+        }
 
-        return MarketHolder(withDataBinding)
+    }
+
+//    var markets: List<Market> = emptyList()
+//        set(value) {
+//            field = value
+//            notifyDataSetChanged()
+//        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarketHolder {
+
+
+        return MarketHolder(MarketItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(holder: MarketHolder, position: Int) {
-        holder.viewDataBinding.also {
-            it.market = markets[position]
-        }
+        val market = getItem(position)
+        holder.bind(market)
     }
 
-    override fun getItemCount(): Int {
-        return markets.size
-    }
 
 
 }

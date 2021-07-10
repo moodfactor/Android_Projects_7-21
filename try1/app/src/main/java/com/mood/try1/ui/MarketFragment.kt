@@ -79,11 +79,12 @@ class MarketFragment : Fragment() {
 
         Timber.d("Fragment Created")
 
-        viewModel.marketList.observe(viewLifecycleOwner, Observer { markets ->
-            markets?.let {
-                viewModelAdapter?.markets = markets
-            }
-        })
+
+//        viewModel.marketList.observe(viewLifecycleOwner, Observer { markets ->
+//            markets?.let {
+//                viewModelAdapter?.markets = markets
+//            }
+//        })
 
     }
 

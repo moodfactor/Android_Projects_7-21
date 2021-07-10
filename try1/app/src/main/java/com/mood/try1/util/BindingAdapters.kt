@@ -3,14 +3,27 @@ package com.mood.try1.util
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mood.try1.domain.Market
+import com.mood.try1.ui.MarketAdapter
+
+
+/**
+ * Updates the data shown in the [RecyclerView].
+ */
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<Market>?) {
+    val adapter = recyclerView.adapter as MarketAdapter
+    adapter.submitList(data)
+}
 
 /**
  * Binding adapter used to hide the spinner once data is available.
  */
 @BindingAdapter("isNetworkError")
 fun hideIfNetworkError(view: View, isNetWorkError: Boolean) {
-    if(isNetWorkError) {
+    if (isNetWorkError) {
         view.visibility = View.GONE
     }
 }

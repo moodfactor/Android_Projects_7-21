@@ -8,7 +8,7 @@ private const val URL = "https://api.jsonbin.io/b/60e875bcf72d2b70bbac7a77/"
 
 interface MarketService{
 
-    @GET(value = "3")
+    @GET(value = "4")
     suspend fun getMarketList(): MarketNetworkContainer
 }
 
